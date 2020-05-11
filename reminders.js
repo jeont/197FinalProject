@@ -5,10 +5,10 @@ const connectDB = require('./services/db');
 
 connectDB();
 
-const remind = async() => {
+const remind = async () => {
   console.log('in function');
 
-  const reminderTime = new Date(Date.now() - 60 * 1000);
+  const reminderTime = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
   console.log('in function');
 
@@ -72,7 +72,7 @@ const remind = async() => {
         )}`,
       };
 
-      transporter.sendMail(mailOptions, function(err, res) {
+      transporter.sendMail(mailOptions, function (err, res) {
         if (err) {
           console.error('there was an error: ', err);
         } else {
