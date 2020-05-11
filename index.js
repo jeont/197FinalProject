@@ -3,7 +3,6 @@ const connectDB = require('./services/db');
 const express = require('express');
 const bodyParse = require('body-parser');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const cron = require('node-cron');
 const nodemailer = require('nodemailer');
 const path = require('path');
@@ -22,17 +21,6 @@ app.use(bodyParse.json());
 app.use(bodyParse.urlencoded({ extended: true }));
 
 const whiteList = ['http://localhost:3000'];
-
-// Configure cross-origin browser
-app.use(
-  cors({
-    origin: (origin, callback) =>
-      !origin || whiteList.includes(origin)
-        ? callback(null, true)
-        : callback(new Error('Not allowed by CORS')),
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-  })
 );
 
 cron.schedule('* * * * *', async () => {
