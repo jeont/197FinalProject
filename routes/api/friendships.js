@@ -5,7 +5,7 @@ const Friendship = require('../../models/Friendship');
 const mongoose = require('mongoose');
 
 // Add friends route
-router.post('/:idToAdd', auth, async (req, res) => {
+router.post('/:idToAdd', auth, async(req, res) => {
   const { idToAdd } = req.params;
 
   friendshipArray = [req.user.id, idToAdd].sort();
@@ -23,7 +23,7 @@ router.post('/:idToAdd', auth, async (req, res) => {
 });
 
 // Remove friend
-router.delete('/:idToRemove', auth, async (req, res) => {
+router.delete('/:idToRemove', auth, async(req, res) => {
   const { idToRemove } = req.params;
 
   const friendshipArray = [req.user.id, idToRemove].sort();
@@ -41,7 +41,7 @@ router.delete('/:idToRemove', auth, async (req, res) => {
 });
 
 // Get user friends and friendships by id
-router.get('/', auth, async (req, res) => {
+router.get('/', auth, async(req, res) => {
   const userId = mongoose.Types.ObjectId(req.user.id);
 
   try {
@@ -72,7 +72,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 // updateLastSeen
-router.put('/:idToUpdate', auth, async (req, res) => {
+router.put('/:idToUpdate', auth, async(req, res) => {
   const { idToUpdate } = req.params;
   const { id } = req.user;
 

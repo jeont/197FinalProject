@@ -1,12 +1,22 @@
 const nodemailer = require('nodemailer');
 const Friendship = require('./models/Friendship');
+const User = require('./models/User');
+const connectDB = require('./services/db');
 
-async () => {
+connectDB();
+
+const remind = async() => {
+  console.log('in function');
+
   const reminderTime = new Date(Date.now() - 60 * 1000);
+
+  console.log('in function');
 
   const friendships = await Friendship.find({
     lastSeen: { $lte: reminderTime },
   }).populate({ path: 'users', model: 'User', select: 'name email' });
+
+  console.log('in function');
 
   console.log(friendships);
 
@@ -62,7 +72,7 @@ async () => {
         )}`,
       };
 
-      transporter.sendMail(mailOptions, function (err, res) {
+      transporter.sendMail(mailOptions, function(err, res) {
         if (err) {
           console.error('there was an error: ', err);
         } else {
@@ -88,3 +98,11 @@ async () => {
 
   console.log(reminders);
 };
+
+remind()
+  .then((result) => {
+    console.log('ran reminders');
+  })
+  .catch((error) => {
+    console.error(error.message);
+  });

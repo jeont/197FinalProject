@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt');
 // @desc    Get user item with a token.
 // @route   GET api/auth
 // @access  Private
-router.get('/', auth, async (req, res) => {
+router.get('/', auth, async(req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
 
@@ -31,7 +31,7 @@ router.post(
     check('email', 'Please include a valid email.').isEmail(),
     check('password', 'Please enter a password.').exists(),
   ],
-  async (req, res) => {
+  async(req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {

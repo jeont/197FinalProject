@@ -19,7 +19,7 @@ router.post(
       'Please enter a password with 6 or more characters'
     ).isLength({ min: 6 }),
   ],
-  async (req, res) => {
+  async(req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -71,7 +71,7 @@ router.post(
 );
 
 // Get all users.
-router.get('/', auth, async (req, res) => {
+router.get('/', auth, async(req, res) => {
   try {
     const users = await User.find();
 

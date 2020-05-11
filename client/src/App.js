@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 // Styling
 import 'bootstrap/dist/css/bootstrap.min.css';

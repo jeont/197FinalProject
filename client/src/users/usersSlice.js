@@ -1,10 +1,5 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  createNextState,
-} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { loginAction } from '../auth/authSlice';
 import setAuthToken from '../utils/setAuthToken';
 
 export const getAllUsers = createAsyncThunk(
@@ -149,7 +144,7 @@ const usersSlice = createSlice({
     },
     [removeFriend.fulfilled]: (state, { payload: { removedId } }) => {
       state.loading = false;
-      state.friendIds = state.friendIds.filter((id) => id != removedId);
+      state.friendIds = state.friendIds.filter((id) => id !== removedId);
     },
     [removeFriend.rejectedWithValue]: (state, action) => {
       state.loading = false;
