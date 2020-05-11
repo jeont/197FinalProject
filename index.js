@@ -90,10 +90,19 @@ cron.schedule('* * * * *', async () => {
       });
     }
 
-    friendships.map(async (friendship) => {
+    const friendPromises = friendships.map((friendship) => {
       friendship.reminded = true;
-      await friendship.save();
+      return new Promise((resolve, reject) => {
+        friendship.save((error, result) => {
+          if (error) {
+            reject(error);
+          }
+          resolve(result);
+        });
+      });
     });
+
+    await Promise.all(friendPromises);
   }
 
   console.log(reminders);
