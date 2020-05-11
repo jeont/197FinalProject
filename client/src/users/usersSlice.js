@@ -15,9 +15,7 @@ export const getAllUsers = createAsyncThunk(
     }
 
     try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/users`
-      );
+      const res = await axios.get(`/api/users`);
 
       return res.data;
     } catch (err) {
@@ -34,9 +32,7 @@ export const addFriend = createAsyncThunk(
     }
 
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/friendships/${idToAdd}`
-      );
+      const res = await axios.post(`/api/friendships/${idToAdd}`);
 
       return res.data;
     } catch (err) {
@@ -53,9 +49,7 @@ export const removeFriend = createAsyncThunk(
     }
 
     try {
-      const res = await axios.delete(
-        `${process.env.REACT_APP_BACKEND_URL}/api/friendships/${idToRemove}`
-      );
+      const res = await axios.delete(`/api/friendships/${idToRemove}`);
 
       return res.data;
     } catch (err) {
@@ -72,9 +66,7 @@ export const updateLastSeen = createAsyncThunk(
     }
 
     try {
-      const res = await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}/api/friendships/${idToUpdate}`
-      );
+      const res = await axios.put(`/api/friendships/${idToUpdate}`);
 
       return res.data;
     } catch (err) {
@@ -91,9 +83,7 @@ export const getFriends = createAsyncThunk(
     }
 
     try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/friendships/`
-      );
+      const res = await axios.get(`/api/friendships/`);
 
       return res.data;
     } catch (err) {

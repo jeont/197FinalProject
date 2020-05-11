@@ -107,7 +107,7 @@ cron.schedule('* * * * *', async () => {
 
     friendships.map(async (friendship) => {
       friendship.reminded = true;
-      await friendships.save();
+      await friendship.save();
     });
   }
 

@@ -13,10 +13,7 @@ export const register = createAsyncThunk(
   'auth/register',
   async (data, { rejectWithValue }) => {
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/users`,
-        data
-      );
+      const res = await axios.post(`/api/users`, data);
 
       return res.data;
     } catch (err) {
@@ -30,10 +27,7 @@ export const login = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log('register called');
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/auth`,
-        data
-      );
+      const res = await axios.post(`/api/auth`, data);
 
       return res.data;
     } catch (err) {
@@ -48,9 +42,7 @@ export const getUser = createAsyncThunk('auth/getUser', async (data, api) => {
   }
 
   try {
-    const res = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/api/auth`
-    );
+    const res = await axios.get(`/api/auth`);
 
     return res.data;
   } catch (err) {

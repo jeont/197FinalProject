@@ -19,7 +19,6 @@ import Navbar from './layout/Navbar';
 import Landing from './layout/Landing';
 import Login from './auth/Login';
 import Register from './auth/Register';
-import Container from 'react-bootstrap/Container';
 import Dashboard from './users/Dashboard';
 
 function App() {
