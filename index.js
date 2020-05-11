@@ -21,7 +21,7 @@ app.use(bodyParse.json());
 app.use(bodyParse.urlencoded({ extended: true }));
 
 cron.schedule('* * * * *', async () => {
-  const reminderTime = new Date(Date.now() - 60 * 60 * 1000);
+  const reminderTime = new Date(Date.now() - 60 * 1000);
 
   const friendships = await Friendship.find({
     lastSeen: { $lte: reminderTime },
