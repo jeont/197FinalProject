@@ -39,11 +39,9 @@ const Dashboard = () => {
     friends = friendIds
       .map((id) => usersById[id])
       .filter((id) => id != user._id);
-    console.log(friendships);
     nonFriends = userIds
       .filter((id) => !friendIds.includes(id))
       .filter((id) => {
-        console.log(id + user._id);
         return id != user._id;
       })
       .map((id) => usersById[id]);

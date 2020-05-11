@@ -61,7 +61,6 @@ const remind = async () => {
   for (const key in reminders) {
     if (reminders.hasOwnProperty(key)) {
       user = reminders[key];
-      console.log('user: ' + JSON.stringify(user));
 
       const mailOptions = {
         from: 'intouchmailerapp@gmail.com',
