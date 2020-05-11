@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const { check, validationResult } = require('express-validator');
 const User = require('../../models/User');
 const jwt = require('jsonwebtoken');
+const auth = require('../../middleware/auth');
 
 // @route   POST api/users
 // @desc    Register a user
@@ -68,5 +69,24 @@ router.post(
     }
   }
 );
+
+// Get all users.
+router.get('/', auth, async (req, res) => {
+  try {
+    const users = await User.find();
+
+    const userIds = users.map((user) => user._id);
+
+    const usersById = users.reduce(
+      (map, obj) => ((map[obj._id] = obj), map),
+      {}
+    );
+
+    res.json({ userIds, usersById });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ msg: 'Server error.' });
+  }
+});
 
 module.exports = router;
