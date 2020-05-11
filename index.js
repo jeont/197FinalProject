@@ -20,9 +20,6 @@ connectDB();
 app.use(bodyParse.json());
 app.use(bodyParse.urlencoded({ extended: true }));
 
-const whiteList = ['http://localhost:3000'];
-);
-
 cron.schedule('* * * * *', async () => {
   const reminderTime = new Date(Date.now() - 60 * 60 * 1000);
 
