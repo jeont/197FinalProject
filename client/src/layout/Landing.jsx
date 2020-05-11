@@ -12,7 +12,7 @@ const Landing = () => {
 
   return (
     <div className="d-flex align-items-center justify-content-center vh-100">
-      <div>
+      <div className="p-3">
         <h1>Welcome to inTouch</h1>
         <p>
           inTouch is an application that you can use to stay in touch with your

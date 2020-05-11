@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from './authSlice';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 // Bootstrap Components
 import Form from 'react-bootstrap/Form';
@@ -35,11 +35,10 @@ const Login = () => {
     <div className="d-flex align-items-center justify-content-center vh-100">
       <Form
         onSubmit={(e) => onSubmit(e)}
-        className="d-flex flex-column flex-grow-1 shadow p-3 rounded bg-white"
+        className="d-flex flex-column flex-grow-1 p-3"
         style={{ maxWidth: 400 }}
       >
         <h1>Login</h1>
-        <p className="lead"> Login here. </p>
 
         <Form.Group>
           <Form.Label>Email</Form.Label>
@@ -65,6 +64,14 @@ const Login = () => {
 
         <Button variant="primary" type="submit">
           Submit
+        </Button>
+        <Button
+          className="mt-2"
+          variant="outline-primary"
+          as={Link}
+          to="/register"
+        >
+          Need an account? Register here.
         </Button>
       </Form>
     </div>

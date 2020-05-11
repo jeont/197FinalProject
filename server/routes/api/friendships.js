@@ -15,7 +15,7 @@ router.post('/:idToAdd', auth, async (req, res) => {
 
     await friendship.save();
 
-    res.json({ addedId: idToAdd });
+    res.json({ addedId: idToAdd, friendship });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
@@ -40,7 +40,7 @@ router.delete('/:idToRemove', auth, async (req, res) => {
   }
 });
 
-// Get user friend ids
+// Get user friends and friendships by id
 router.get('/', auth, async (req, res) => {
   const userId = mongoose.Types.ObjectId(req.user.id);
 
@@ -49,14 +49,48 @@ router.get('/', auth, async (req, res) => {
       users: userId,
     });
 
-    const ids = friendships
+    const friendIds = friendships
       .map((friendship) => friendship.users)
       .flat()
       .filter((id) => {
         return id != userId.toString();
       });
 
-    res.json(ids);
+    const friendshipsById = friendships.reduce(
+      (friends, friend) => (
+        (friends[friend.users.filter((id) => friendIds.includes(id))] = friend),
+        friends
+      ),
+      {}
+    );
+
+    res.json({ friendIds, friendshipsById });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
+
+// updateLastSeen
+router.put('/:idToUpdate', auth, async (req, res) => {
+  const { idToUpdate } = req.params;
+  const { id } = req.user;
+
+  try {
+    friendshipArray = [id, idToUpdate].sort();
+
+    const friendship = await Friendship.findOneAndUpdate(
+      {
+        users: { $all: friendshipArray },
+      },
+      { $set: { lastSeen: Date.now(), reminded: false } }
+    );
+
+    if (!friendship) {
+      res.status(404).send('Friendship not found.');
+    }
+
+    res.json({ idToUpdate, friendship });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');

@@ -15,6 +15,10 @@ const FriendshipSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  reminded: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = Friendship = mongoose.model('Friendship', FriendshipSchema);

@@ -1,14 +1,11 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  createNextState,
+} from '@reduxjs/toolkit';
 import axios from 'axios';
 import { loginAction } from '../auth/authSlice';
 import setAuthToken from '../utils/setAuthToken';
-
-const initialState = {
-  loading: true,
-  usersById: null,
-  userIds: null,
-  friendIds: null,
-};
 
 export const getAllUsers = createAsyncThunk(
   'users/getAllUsers',
@@ -36,15 +33,15 @@ export const addFriend = createAsyncThunk(
       setAuthToken(localStorage.token);
     }
 
-    const userId = api.getState().auth.user._id;
-
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/friendships/${idToAdd}`
       );
 
       return res.data;
-    } catch (err) {}
+    } catch (err) {
+      return api.rejectWithValue(err.message);
+    }
   }
 );
 
@@ -67,8 +64,27 @@ export const removeFriend = createAsyncThunk(
   }
 );
 
-export const getFriendIds = createAsyncThunk(
-  'users/getFriendIds',
+export const updateLastSeen = createAsyncThunk(
+  'users/updateLastSeen',
+  async (idToUpdate, api) => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+
+    try {
+      const res = await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/api/friendships/${idToUpdate}`
+      );
+
+      return res.data;
+    } catch (err) {
+      return api.rejectWithValue(err.message);
+    }
+  }
+);
+
+export const getFriends = createAsyncThunk(
+  'users/getFriends',
   async (data, api) => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
@@ -86,7 +102,15 @@ export const getFriendIds = createAsyncThunk(
   }
 );
 
-const authSlice = createSlice({
+const initialState = {
+  loading: true,
+  usersById: {},
+  userIds: [],
+  friendIds: [],
+  friendshipsById: {},
+};
+
+const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {},
@@ -105,21 +129,29 @@ const authSlice = createSlice({
     [addFriend.pending]: (state, action) => {
       state.loading = true;
     },
-    [addFriend.fulfilled]: (state, { payload: { addedId } }) => {
+    [addFriend.fulfilled]: (state, { payload: { addedId, friendship } }) => {
       state.loading = false;
-      state.friends = state.friendIds.unshift(addedId);
+      state.friendshipsById = {
+        ...state.friendshipsById,
+        [addedId]: friendship,
+      };
+      state.friendIds.unshift(addedId);
     },
     [addFriend.rejectedWithValue]: (state, action) => {
       state.loading = false;
     },
-    [getFriendIds.pending]: (state, action) => {
+    [getFriends.pending]: (state, action) => {
       state.loading = true;
     },
-    [getFriendIds.fulfilled]: (state, action) => {
+    [getFriends.fulfilled]: (
+      state,
+      { payload: { friendIds, friendshipsById } }
+    ) => {
       state.loading = false;
-      state.friendIds = action.payload;
+      state.friendIds = friendIds;
+      state.friendshipsById = friendshipsById;
     },
-    [getFriendIds.rejectedWithValue]: (state, action) => {
+    [getFriends.rejectedWithValue]: (state, action) => {
       state.loading = false;
     },
     [removeFriend.pending]: (state, action) => {
@@ -132,7 +164,23 @@ const authSlice = createSlice({
     [removeFriend.rejectedWithValue]: (state, action) => {
       state.loading = false;
     },
+    [updateLastSeen.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [updateLastSeen.fulfilled]: (
+      state,
+      { payload: { idToUpdate, friendship } }
+    ) => {
+      state.loading = false;
+      state.friendshipsById = {
+        ...state.friendshipsById,
+        [idToUpdate]: { friendship },
+      };
+    },
+    [updateLastSeen.rejectedWithValue]: (state, action) => {
+      state.loading = false;
+    },
   },
 });
 
-export default authSlice.reducer;
+export default usersSlice.reducer;

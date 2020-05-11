@@ -25,7 +25,7 @@ import Dashboard from './users/Dashboard';
 function App() {
   useEffect(() => {
     store.dispatch(getUser());
-  });
+  }, []);
 
   return (
     <Provider store={store}>
@@ -35,7 +35,7 @@ function App() {
           <Route exact path="/" component={Landing} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
-          <Route exact path="/dashboard" component={Dashboard} />
+          <PrivateRoute exact path="/dashboard" component={Dashboard} />
         </Switch>
       </Router>
     </Provider>

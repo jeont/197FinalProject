@@ -61,7 +61,14 @@ export const getUser = createAsyncThunk('auth/getUser', async (data, api) => {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    logOut: (state) => {
+      state.authenticated = false;
+      state.loading = false;
+      localStorage.removeItem('token');
+      state.user = {};
+    },
+  },
   extraReducers: {
     [register.pending]: (state, action) => {
       state.loading = true;
@@ -99,9 +106,13 @@ const authSlice = createSlice({
       state.loading = false;
       state.authenticated = false;
     },
+    [getUser.rejected]: (state, action) => {
+      state.loading = false;
+      state.authenticated = false;
+    },
   },
 });
 
-export const { loginAction } = authSlice.actions;
+export const { logOut } = authSlice.actions;
 
 export default authSlice.reducer;

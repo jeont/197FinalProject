@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { register } from './authSlice';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 // Bootstrap Components
 import Form from 'react-bootstrap/Form';
@@ -41,11 +41,10 @@ const Register = () => {
     <div className="d-flex align-items-center justify-content-center vh-100">
       <Form
         onSubmit={(e) => onSubmit(e)}
-        className="d-flex flex-column flex-grow-1 shadow p-3 rounded bg-white"
+        className="d-flex flex-column flex-grow-1 p-3 bg-white"
         style={{ maxWidth: 400 }}
       >
         <h1>Register</h1>
-        <p className="lead"> Create an account here. </p>
 
         <Form.Group>
           <Form.Label>Name</Form.Label>
@@ -93,6 +92,14 @@ const Register = () => {
 
         <Button variant="primary" type="submit">
           Submit
+        </Button>
+        <Button
+          className="mt-2"
+          variant="outline-primary"
+          as={Link}
+          to="/login"
+        >
+          Have an account? Login here.
         </Button>
       </Form>
     </div>
