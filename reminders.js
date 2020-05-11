@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 const Friendship = require('./models/Friendship');
 
-const remind = async () => {
+async () => {
   const reminderTime = new Date(Date.now() - 60 * 1000);
 
   const friendships = await Friendship.find({
@@ -88,5 +88,3 @@ const remind = async () => {
 
   console.log(reminders);
 };
-
-remind();
